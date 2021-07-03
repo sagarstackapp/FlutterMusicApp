@@ -22,9 +22,11 @@ class HomePageState extends State<HomePage> {
   }
 
   initPlayer() {
+    // ignore: deprecated_member_use
     audioPlayer.durationHandler = (d) => setState(() {
           duration = d;
         });
+    // ignore: deprecated_member_use
     audioPlayer.positionHandler = (p) => setState(() {
           position = p;
         });
@@ -46,78 +48,78 @@ class HomePageState extends State<HomePage> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(title: Text('Flutter Downloader'), centerTitle: true),
-        body: SingleChildScrollView(
-          primary: true,
-          child: Column(
-            children: [
-              ListView.builder(
-                primary: false,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  MediaListModel data = audiolist[index];
-                  return InkWell(
-                    onTap: () async {
-                      if (audiolist[index].playingstatus == 0) {
-                        result = await audioPlayer.stop();
-                        result = await audioPlayer.play(audiolist[index].path,
-                            isLocal: true);
-                        Get.printInfo(info: 'Playing --> ${data.path}');
-                        setState(() {
-                          for (int i = 0; i < audiolist.length; i++) {
-                            audiolist[i].playingstatus = 0;
-                          }
-                          audiolist[index].playingstatus = 1;
-                        });
-                        Get.snackbar(
-                          '${data.fileName}',
-                          'We playing ${data.path}',
-                          snackPosition: SnackPosition.BOTTOM,
-                          icon: Icon(Icons.music_note),
-                          borderRadius: 20,
-                          margin: EdgeInsets.all(15),
-                          duration: Duration(seconds: 3),
-                        );
-                      } else if (audiolist[index].playingstatus == 1) {
-                        result = await audioPlayer.stop();
-                        setState(() {
-                          for (int i = 0; i < audiolist.length; i++) {
-                            audiolist[i].playingstatus = 0;
-                          }
-                        });
+        appBar: AppBar(
+          title: Text('Flutter Downloader'.tr),
+          centerTitle: true,
+          actions: [
+            ElevatedButton(
+                onPressed: changeLanguage, child: Text('Switch Language'.tr))
+          ],
+        ),
+        body: ListView(
+          children: [
+            ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                MediaListModel data = audiolist[index];
+                return InkWell(
+                  onTap: () async {
+                    if (audiolist[index].playingstatus == 0) {
+                      result = await audioPlayer.stop();
+                      result = await audioPlayer.play(audiolist[index].path);
+                      Get.printInfo(info: 'Playing --> ${data.path}');
+                      for (int i = 0; i < audiolist.length; i++) {
+                        audiolist[i].playingstatus = 0;
                       }
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                      child: Container(
-                        color: Colors.blueGrey,
-                        child: Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text('${data.fileName}',
-                                      style: TextStyle(color: Colors.white)),
-                                  Spacer(),
-                                  Icon(Icons.file_download),
-                                ],
-                              ),
-                              audiolist[index].playingstatus == 0
-                                  ? Container()
-                                  : slider(),
-                            ],
-                          ),
+                      audiolist[index].playingstatus = 1;
+                      Get.snackbar(
+                        '${data.fileName}',
+                        'We playing ${data.path}',
+                        snackPosition: SnackPosition.BOTTOM,
+                        icon: Icon(Icons.music_note),
+                        borderRadius: 20,
+                        margin: EdgeInsets.all(15),
+                        duration: Duration(seconds: 3),
+                      );
+                    } else if (audiolist[index].playingstatus == 1) {
+                      result = await audioPlayer.stop();
+                      setState(() {
+                        for (int i = 0; i < audiolist.length; i++) {
+                          audiolist[i].playingstatus = 0;
+                        }
+                      });
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    child: Container(
+                      color: Colors.blueGrey,
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text('${data.fileName.tr}',
+                                    style: TextStyle(color: Colors.white)),
+                                Spacer(),
+                                Icon(Icons.file_download),
+                              ],
+                            ),
+                            audiolist[index].playingstatus == 0
+                                ? Container()
+                                : slider(),
+                          ],
                         ),
                       ),
                     ),
-                  );
-                },
-                itemCount: audiolist.length ?? 0,
-              ),
-            ],
-          ),
+                  ),
+                );
+              },
+              itemCount: audiolist.length ?? 0,
+            ),
+          ],
         ),
       ),
     );
@@ -151,5 +153,42 @@ class HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+  changeLanguage() {
+    Get.bottomSheet(
+      Container(
+        color: Colors.white,
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text('Brazilian'),
+              onTap: () {
+                Get.updateLocale(Locale('pt', 'BR'));
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text('English'),
+              onTap: () {
+                Get.updateLocale(Get.deviceLocale);
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text('Arabic'),
+              onTap: () {
+                Get.updateLocale(Locale('ar', ''));
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+    // Get.updateLocale(Locale('pt', 'BR'));
   }
 }

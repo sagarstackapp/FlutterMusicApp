@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_donloader_demo/home_screen.dart';
+import 'package:flutter_donloader_demo/localization_key.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -15,6 +16,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo for Flutter downloader and Audio player',
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      locale: Get.deviceLocale,
+      translationsKeys: translationKey,
     );
   }
 }
@@ -32,7 +35,7 @@ class SplashScreenState extends State<SplashScreen> {
     Get.printInfo(info: 'Current page --> $runtimeType');
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload File'),
+        title: Text('Upload File'.tr),
         actions: [
           CupertinoSwitch(
             activeColor: Colors.black,
@@ -53,7 +56,7 @@ class SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: mediaPlayer, child: Text('Media Player')),
+            ElevatedButton(onPressed: mediaPlayer, child: Text('Media Player'.tr)),
           ],
         ),
       ),
@@ -61,7 +64,9 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   mediaPlayer() {
-    Get.to(() => HomePage(),transition: Transition.rightToLeft,duration: Duration(milliseconds: 800));
+    Get.to(() => HomePage(),
+        transition: Transition.rightToLeft,
+        duration: Duration(milliseconds: 800));
   }
 
   changeTheme(theme) {
