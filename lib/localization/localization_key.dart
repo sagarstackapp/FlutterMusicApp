@@ -1,5 +1,5 @@
 // Map<String, Map<String, String>>
-var translationKey = {
+Map<String, Map<String, String>> translationKey = {
   'en_US': {
     'Upload File': 'Upload File',
     'Media Player': 'Media Player',
@@ -47,6 +47,5 @@ var translationKey = {
     'File : 8': 'ملف : 8',
     'File : 9': 'ملف : 9',
     'File : 10': 'ملف : 10',
-
   },
 };

@@ -2,12 +2,12 @@ class MediaListModel {
   int id;
   String fileName;
   String path;
-  int playingstatus;
+  int playingStatus;
 
-  MediaListModel({this.id, this.fileName, this.path, this.playingstatus = 0});
+  MediaListModel({this.id, this.fileName, this.path, this.playingStatus = 0});
 }
 
-List<MediaListModel> audiolist = [
+List<MediaListModel> audioList = [
   MediaListModel(
     id: 1,
     fileName: 'File : 1',

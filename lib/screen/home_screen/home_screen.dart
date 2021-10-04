@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_donloader_demo/media_list_model.dart';
+import 'package:flutter_donloader_demo/model/media_list_model.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,8 +40,8 @@ class HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: () async {
         await audioPlayer.pause();
-        for (int i = 0; i < audiolist.length; i++) {
-          audiolist[i].playingstatus = 0;
+        for (int i = 0; i < audioList.length; i++) {
+          audioList[i].playingStatus = 0;
         }
         Get.back();
 
@@ -53,7 +53,9 @@ class HomePageState extends State<HomePage> {
           centerTitle: true,
           actions: [
             ElevatedButton(
-                onPressed: changeLanguage, child: Text('Switch Language'.tr))
+              onPressed: changeLanguage,
+              child: Text('Switch Language'.tr),
+            ),
           ],
         ),
         body: ListView(
@@ -62,17 +64,17 @@ class HomePageState extends State<HomePage> {
               primary: false,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                MediaListModel data = audiolist[index];
+                MediaListModel data = audioList[index];
                 return InkWell(
                   onTap: () async {
-                    if (audiolist[index].playingstatus == 0) {
+                    if (audioList[index].playingStatus == 0) {
                       result = await audioPlayer.stop();
-                      result = await audioPlayer.play(audiolist[index].path);
+                      result = await audioPlayer.play(audioList[index].path);
                       Get.printInfo(info: 'Playing --> ${data.path}');
-                      for (int i = 0; i < audiolist.length; i++) {
-                        audiolist[i].playingstatus = 0;
+                      for (int i = 0; i < audioList.length; i++) {
+                        audioList[i].playingStatus = 0;
                       }
-                      audiolist[index].playingstatus = 1;
+                      audioList[index].playingStatus = 1;
                       Get.snackbar(
                         '${data.fileName}',
                         'We playing ${data.path}',
@@ -82,11 +84,11 @@ class HomePageState extends State<HomePage> {
                         margin: EdgeInsets.all(15),
                         duration: Duration(seconds: 3),
                       );
-                    } else if (audiolist[index].playingstatus == 1) {
+                    } else if (audioList[index].playingStatus == 1) {
                       result = await audioPlayer.stop();
                       setState(() {
-                        for (int i = 0; i < audiolist.length; i++) {
-                          audiolist[i].playingstatus = 0;
+                        for (int i = 0; i < audioList.length; i++) {
+                          audioList[i].playingStatus = 0;
                         }
                       });
                     }
@@ -107,7 +109,7 @@ class HomePageState extends State<HomePage> {
                                 Icon(Icons.file_download),
                               ],
                             ),
-                            audiolist[index].playingstatus == 0
+                            audioList[index].playingStatus == 0
                                 ? Container()
                                 : slider(),
                           ],
@@ -117,7 +119,7 @@ class HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              itemCount: audiolist.length ?? 0,
+              itemCount: audioList.length ?? 0,
             ),
           ],
         ),

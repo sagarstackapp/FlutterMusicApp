@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_donloader_demo/home_screen.dart';
-import 'package:flutter_donloader_demo/localization_key.dart';
+import 'package:flutter_donloader_demo/localization/localization_key.dart';
+import 'package:flutter_donloader_demo/screen/home_screen/home_screen.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo for Flutter downloader and Audio player',
+      title: 'Flutter Demo of Audio player',
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
       locale: Get.deviceLocale,
@@ -56,7 +56,10 @@ class SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: mediaPlayer, child: Text('Media Player'.tr)),
+            ElevatedButton(
+              onPressed: mediaPlayer,
+              child: Text('Media Player'.tr),
+            ),
           ],
         ),
       ),
